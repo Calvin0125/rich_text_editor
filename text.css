@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: rgb(71, 34, 71);
+}
+#text-editor {
+  margin: 100px auto 0 auto;
+  width: 500px;
+  height: 400px;
+  background-color: white;
+  padding: 3px;
+}
+
+.focused {
+  border: 2px solid blue;
+}
+
+.cursor {
+  border-right: 1px solid black;
+  height: 16px;
+  width: 0px;
+}
+
+.line {
+  display: flex;
+}
+
+.space {
+  width: 5px;
+}
