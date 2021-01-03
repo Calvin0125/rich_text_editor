@@ -40,20 +40,54 @@ class TextEditor {
   }
 
   handleKeyDown(event) {
-    if (event.key.length > 1) {
-      return true;
-    } else {
-      clearInterval(this.cursorIntervalID);
-      let $oldCursor = $('#cursor');
-      let $newCursor = $('<p></p>');
-      if (event.key === ' ') {
-        $oldCursor.addClass('space');
-      } else {
-        $oldCursor.text(event.key);
-      }
-      $newCursor.insertAfter($oldCursor);
-      this.setCursor($newCursor, $oldCursor);
+    if (event.key.length === 1) {
+      this.addChar(event.key);
+    } else if (event.key === "Backspace") {
+      this.backSpace();
+    } else if (event.key === "Tab") {
+      event.preventDefault();
+      this.tab();
     }
+  }
+
+  addChar(char) {
+    clearInterval(this.cursorIntervalID);
+    let $oldCursor = $('#cursor');
+    let $newCursor = $('<p></p>');
+    if (char === ' ') {
+      $oldCursor.addClass('space');
+    } else {
+      $oldCursor.text(char);
+    }
+
+    $newCursor.insertAfter($oldCursor);
+    this.setCursor($newCursor, $oldCursor);
+  }
+
+  backSpace() {
+    if (this.noText()) {
+      return;
+    }
+
+    let $newCursor = $('#cursor').prev();
+    $('#cursor').remove();
+    $newCursor.removeClass('space');
+    $newCursor.text('');
+    this.setCursor($newCursor);
+  }
+
+  noText() {
+    return (this.$textEditor.text().trim() === "") &&
+           ($('.space').length === 0);
+  }
+
+  tab() {
+    let $newCursor = $('<p></p>');
+    let $oldCursor = $('#cursor');
+    $oldCursor.addClass('space');
+    $(`${'<p class="space"></p>'.repeat(3)}`).insertBefore($oldCursor);
+    $newCursor.insertAfter($oldCursor);
+    this.setCursor($newCursor, $oldCursor);
   }
 }
 
